@@ -1,43 +1,27 @@
-import React from 'react'
-import { useState } from 'react';
-import { useEffect } from 'react'
-
-function Product({product}){
-  return (<li>{product.id}.{product.title}</li>)
-}
+import React, { useEffect, useState } from "react";
 
 export default function App() {
+  const [data, setData] = useState([]);
 
-  const [products, setProducts] = useState([]);
-
-  // Function used to all api using fetch method
-  async function getProducts(){
-    let response = await fetch('https://fakestoreapi.com/products')
-    let data = await response.json();
-    setProducts(data);
-  }
-
-  // Useeffect resposible to fetch products only once when component loaded
-  useEffect(function(){
-     getProducts();
+  useEffect(() => {
+    apiCall();
   }, []);
 
-  console.log(products)
+  async function apiCall() {
+    try {
+      let responsive = await fetch("https://fakestoreapi.comm/products");
+      let mydata = await responsive.json();
+      // console.log(mydata);
+      setData(mydata);
+    } catch (error) {
+      console.log(error + " oops This is error");
+    }
+  }
 
+  console.log(data);
   return (
     <div>
-      <h2>Products</h2>
-      <ul>
-
-        {/* condition ? true : false */}
-        {/* condition && true */}
-
-        {(products.length > 0) && 
-          products.map((product, index) => {
-            return (<Product product={product} key={index} />)
-          })
-        }
-      </ul>
+      <h1>Testing</h1>
     </div>
-  )
+  );
 }
